@@ -1,7 +1,7 @@
 OBJDIR=obj
 SRCDIR=src
 BINDIR=bin
-CPPFLAGS=-g -Wall -Wextra -std=c++11 -I $(SRCDIR) -I/opt/X11/include -I/opt/cuda/include
+CPPFLAGS=-g -Wall -Wextra -std=c++11 -I $(SRCDIR) -I/opt/X11/include -I/usr/local/cuda/include
 CXX=g++
 NVXX=nvcc
 LIBS=-lX11 -lXext -lpthread -L/opt/X11/lib/ -lavutil -lavformat -lavcodec -lavdevice -lswscale
@@ -14,7 +14,7 @@ ifeq ($(HAS_CUDA),y)
 else
 	CUDA_LIBS=
 endif
-all: canny flow warp lk ransac interpolate gd generate_bgfg main 
+all: spatial_coherence ransac_cpu gd_cpu canny flow warp lk ransac interpolate gd generate_bgfg main
 
 main: $(SRCDIR)/main.cpp
 	$(CXX) $(SRCDIR)/main.cpp $(OBJS) $(CPU_OBJS) -o $(BINDIR)/main $(CPPFLAGS) $(LIBS) $(CUDA_LIBS) `pkg-config opencv --cflags --libs`
